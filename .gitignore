@@ -16,6 +16,13 @@
 # Mono auto generated files
 mono_crash.*
 
+# Idea
+.idea/
+
+# Node
+package-lock.json
+www/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/

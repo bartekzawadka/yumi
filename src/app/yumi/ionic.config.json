@@ -1,0 +1,7 @@
+{
+  "name": "yumi",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
