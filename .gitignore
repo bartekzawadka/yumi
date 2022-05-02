@@ -23,6 +23,9 @@ mono_crash.*
 package-lock.json
 www/
 
+# VS
+appsettings.Local.json
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/

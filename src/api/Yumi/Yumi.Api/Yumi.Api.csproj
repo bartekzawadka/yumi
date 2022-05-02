@@ -8,7 +8,20 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Baz.Service.Action.AspNetCore" Version="2.0.1" />
+        <PackageReference Include="Baz.Service.Action.Core" Version="2.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.4" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.4" />
+        <PackageReference Include="RavenDB.DependencyInjection" Version="4.0.2" />
+        <PackageReference Include="Serilog" Version="2.11.0" />
+        <PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
+        <PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Yumi.Application\Yumi.Application.csproj" />
+      <ProjectReference Include="..\Yumi.Infrastructure\Yumi.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>
