@@ -1,0 +1,31 @@
+name: All CI
+
+on:
+  push:
+    branches: [ main ]
+    
+env:
+  solution_file: 'My.Core.App.sln'
+  nuget_feed_name: 'BazOps'
+  nuget_feed_source: 'https://pkgs.dev.azure.com/kontakt0395/_packaging/Baz/nuget/v3/index.json'
+  nuget_config: 'nuget.config'    
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET 6.0.x
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x
+    - name: Auth NuGet
+      run: dotnet nuget add source ${{ env.nuget_feed_source }} --name ${{ env.nuget_feed_name }} --username az --password ${{ secrets.AZURE_DEVOPS_TOKEN }} --configfile ${{ env.nuget_config }}        
+    - name: Restore packages
+      run: dotnet restore src/api/Yumi/Yumi.sln --no-cache
+    - name: Build
+      run: dotnet build src/api/Yumi/Yumi.sln --no-restore
+    - name: Test
+      run: dotnet test src/api/Yumi/Yumi.sln --no-build --verbosity normal
