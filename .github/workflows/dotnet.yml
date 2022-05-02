@@ -24,7 +24,7 @@ jobs:
     - name: Clean sources
       run: dotnet nuget remove source ${{ env.nuget_feed_name }} --configfile ${{ env.nuget_config }}
     - name: Auth NuGet
-      run: dotnet nuget add source ${{ env.nuget_feed_source }} --name ${{ env.nuget_feed_name }} --username az --password ${{ secrets.AZURE_DEVOPS_TOKEN }} --configfile ${{ env.nuget_config }} --valid-authentication-types 'basic'    
+      run: dotnet nuget add source ${{ env.nuget_feed_source }} --name ${{ env.nuget_feed_name }} --username az --password ${{ secrets.AZURE_DEVOPS_TOKEN }} --configfile ${{ env.nuget_config }} --store-password-in-clear-text    
     - name: Restore packages
       run: dotnet restore src/api/Yumi/Yumi.sln --no-cache
     - name: Build
