@@ -21,6 +21,8 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
+    - name: Clean sources
+      run: dotnet nuget remove source ${{ env.nuget_feed_source }} --configfile ${{ env.nuget_config }}
     - name: Auth NuGet
       run: dotnet nuget add source ${{ env.nuget_feed_source }} --name ${{ env.nuget_feed_name }} --username az --password ${{ secrets.AZURE_DEVOPS_TOKEN }} --configfile ${{ env.nuget_config }}        
     - name: Restore packages
