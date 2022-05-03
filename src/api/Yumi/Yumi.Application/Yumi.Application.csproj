@@ -7,6 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Baz.Service.Action.AspNetCore" Version="2.0.1" />
+        <PackageReference Include="Baz.Service.Action.Core" Version="2.0.1" />
+        <PackageReference Include="FluentValidation" Version="11.0.0" />
+    </ItemGroup>
+    
+    <ItemGroup>
       <ProjectReference Include="..\Yumi.Infrastructure\Yumi.Infrastructure.csproj" />
     </ItemGroup>
 

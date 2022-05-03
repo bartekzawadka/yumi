@@ -2,6 +2,8 @@
 
 public record RecipeListItem
 {
+    public string Id { get; set; } = string.Empty;
+    
     public string Name { get; init; } = string.Empty;
 
     public DateTime TimeStamp { get; init; } = DateTime.UtcNow;

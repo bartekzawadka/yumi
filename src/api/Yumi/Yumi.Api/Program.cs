@@ -2,6 +2,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Baz.Service.Action.AspNetCore.Extensions;
 using Baz.Service.Action.Core;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
@@ -9,6 +10,7 @@ using Raven.DependencyInjection;
 using Serilog;
 using Yumi.Application.Configuration;
 using Yumi.Application.Services;
+using Yumi.Application.Validation.Dto.Commands;
 using Yumi.Infrastructure.Models;
 using Yumi.Infrastructure.Repositories;
 
@@ -35,7 +37,8 @@ builder
     .AddNewtonsoftJson(options =>
     {
         options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-    });
+    })
+    .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<CreateRecipeCommandValidator>());
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
