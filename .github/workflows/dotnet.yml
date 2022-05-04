@@ -49,4 +49,4 @@ jobs:
       run: npm install
       working-directory: ./src/app/yumi
     - name: NPM build
-      run: ionic build
+      run: npm run ng run app:build
