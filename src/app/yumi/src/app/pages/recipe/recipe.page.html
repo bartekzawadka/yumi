@@ -1,0 +1,76 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Recipe</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="saveRecipe()" [disabled]="!model.isValid()">
+        <ion-icon icon="save-outline" slot="start"></ion-icon>
+        Save
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-item>
+    <ion-label color="primary" position="floating">Name</ion-label>
+    <ion-input [(ngModel)]="model.name"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label color="primary" position="floating">Description</ion-label>
+    <ion-textarea [(ngModel)]="model.description"></ion-textarea>
+  </ion-item>
+
+  <ion-item>
+    <ion-text>Ingredients</ion-text>
+    <ion-button shape="round" fill="outline" slot="end" (click)="addRecipeIngredient()">
+      <ion-icon icon="add-outline" slot="icon-only"></ion-icon>
+    </ion-button>
+  </ion-item>
+  <ion-card *ngIf="model.ingredients && model.ingredients.length > 0">
+    <ion-card-content>
+      <ion-item *ngFor="let ingredient of model.ingredients;let i = index;" class="transparent" lines="none">
+        <ion-label>{{ingredient.name}}</ion-label>
+        <ion-note slot="end" color="primary">{{ingredient.amount}}{{ingredient.unit}}</ion-note>
+        <ion-buttons slot="end">
+          <ion-button size="small" color="primary">
+            <ion-icon icon="create-outline"></ion-icon>
+          </ion-button>
+          <ion-button size="small" color="danger" (click)="deleteIngredient(i)">
+            <ion-icon icon="trash-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+  <ion-item>
+    <ion-text>Steps</ion-text>
+    <ion-button fill="outline" shape="round" slot="end" (click)="addRecipeStep()">
+      <ion-icon icon="add-outline" slot="icon-only"></ion-icon>
+    </ion-button>
+  </ion-item>
+  <ion-card *ngFor="let step of model.recipeSteps;let i = index;">
+    <ion-card-header>
+      <div class="container">
+        <ion-text class="container-item recipe-step-title">{{i + 1}}. {{step.name}}</ion-text>
+        <ion-badge class="idle-time-badge" color="warning" slot="end" *ngIf="step.idleTimeInMinutes > 0">
+          {{getIdleDisplayValue(step.idleTimeInMinutes)}} idle
+        </ion-badge>
+        <ion-buttons slot="end">
+          <ion-button size="small" color="primary" (click)="editStep(step, i)">
+            <ion-icon icon="create-outline"></ion-icon>
+          </ion-button>
+          <ion-button size="small" color="danger" (click)="deleteStep(i)">
+            <ion-icon icon="trash-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </div>
+    </ion-card-header>
+    <ion-card-content class="recipe-step-content">
+      {{step.content}}
+    </ion-card-content>
+  </ion-card>
+</ion-content>

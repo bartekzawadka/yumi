@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Recipe step</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()" color="primary">
+        <ion-icon icon="close-outline"></ion-icon>
+        Close
+      </ion-button>
+      <ion-button color="primary" (click)="save()">
+        <ion-icon icon="save-outline"></ion-icon>
+        Save
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+  <div class="container">
+    <ion-item class="container-item">
+      <ion-label position="floating" color="primary">Name</ion-label>
+      <ion-input placeholder="Name" [(ngModel)]="data.name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating" color="primary">Idle time in minutes</ion-label>
+      <ion-input type="number" [(ngModel)]="data.idleTimeInMinutes"></ion-input>
+    </ion-item>
+  </div>
+
+  <ion-item>
+    <ion-label position="floating" color="primary">Description</ion-label>
+    <ion-textarea class="step-content" rows="8" auto-grow="true" placeholder="Describe step here..."
+                  [(ngModel)]="data.content"></ion-textarea>
+  </ion-item>
+</ion-content>

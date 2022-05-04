@@ -65,6 +65,7 @@ public class RecipeService : IRecipeService
             }).ToList(),
             RecipeSteps = command.RecipeSteps.Select(dto => new RecipeStep
             {
+                Name = dto.Name,
                 Content = dto.Content,
                 IdleTimeInMinutes = dto.IdleTimeInMinutes
             }).ToList(),
@@ -99,6 +100,7 @@ public class RecipeService : IRecipeService
         }).ToList();
         recipe.RecipeSteps = command.RecipeSteps.Select(dto => new RecipeStep
         {
+            Name = dto.Name,
             Content = dto.Content,
             IdleTimeInMinutes = dto.IdleTimeInMinutes
         }).ToList();

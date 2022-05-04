@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  width: 100%;
+}
+
+.container-item {
+  flex: 1 auto;
+}
+
+.buttons-container {
+  margin: 20px;
+}
+
+.transparent{
+  --background: transparentize(#000000, 100);
+}
+
+.idle-time-badge {
+  padding-top: 10px;
+}
+
+.recipe-step-title {
+  color: var(--ion-color-step-950);
+  font-size: 18px;
+}
+
+.recipe-step-content {
+  color: var(--ion-color-step-950);
+}

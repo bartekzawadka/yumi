@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Recipe ingredient</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()" color="primary">
+        <ion-icon icon="close-outline"></ion-icon>
+        Close
+      </ion-button>
+      <ion-button color="primary" (click)="save()">
+        <ion-icon icon="save-outline"></ion-icon>
+        Save
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+  <ion-item class="container-item">
+    <ion-label position="floating" color="primary">Name</ion-label>
+    <ion-input placeholder="Name" [(ngModel)]="data.name"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating" color="primary">Amount</ion-label>
+    <ion-input type="number" [(ngModel)]="data.amount"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating" color="primary">Unit</ion-label>
+    <ion-input [(ngModel)]="data.unit"></ion-input>
+  </ion-item>
+</ion-content>
