@@ -17,6 +17,10 @@ import {Router} from '@angular/router';
 })
 export class RecipePage extends PageBase implements OnInit {
   model = new Recipe();
+  slidesOptions = {
+    autoHeight: true,
+    centerSlides: true,
+  };
 
   constructor(
     private router: Router,
@@ -114,5 +118,22 @@ export class RecipePage extends PageBase implements OnInit {
 
   deleteIngredient(i: number) {
     this.model.ingredients.splice(i, 1);
+  }
+
+  onImageChange(e) {
+    const reader = new FileReader();
+
+    if (e.target.files && e.target.files.length) {
+      const [file] = e.target.files;
+      reader.readAsDataURL(file);
+
+      reader.onload = () => {
+        this.model.photos.push(reader.result as string);
+      };
+    }
+  }
+
+  addImage() {
+    document.getElementById('fileInput').click();
   }
 }

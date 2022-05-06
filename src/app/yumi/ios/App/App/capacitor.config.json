@@ -1,1 +1,6 @@
-{}
+{
+	"appId": "baz.yumi",
+	"appName": "Yumi",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

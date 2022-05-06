@@ -27,3 +27,26 @@
 .recipe-step-content {
   color: var(--ion-color-step-950);
 }
+
+.box {
+  width: auto;
+  height: 400px;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+}
+
+.upload-button {
+  input {
+    display: none;
+  }
+}
+
+.button-slide-image-remove {
+  margin: 8px auto;
+  display: block;
+  align-self: center;
+  align-content: center;
+}

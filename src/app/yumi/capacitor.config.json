@@ -1,6 +1,6 @@
 {
-	"appId": "io.ionic.starter",
-	"appName": "yumi",
+	"appId": "baz.yumi",
+	"appName": "Yumi",
 	"webDir": "www",
 	"bundledWebRuntime": false
 }
