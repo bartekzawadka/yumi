@@ -136,4 +136,8 @@ export class RecipePage extends PageBase implements OnInit {
   addImage() {
     document.getElementById('fileInput').click();
   }
+
+  deleteImage(index: number) {
+    this.model.photos.splice(index, 1);
+  }
 }
