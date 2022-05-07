@@ -28,9 +28,7 @@
     <ion-row>
       <ion-col size-xs="12" size-sm="12" size-md="6" size-lg="4" size-xl="3" *ngFor="let recipe of data">
         <ion-card>
-          <div>
-            <img [src]="recipe.photo" *ngIf="recipe.photo" class="card-image">
-          </div>
+          <ion-img (click)="previewRecipe(recipe.id)" [src]="recipe.photo" *ngIf="recipe.photo" class="card-image"></ion-img>
           <ion-card-header>
             <ion-text class="recipe-title">{{recipe.name}}</ion-text>
             <ion-card-subtitle>{{recipe.timeStamp | date:'dd-MM-yyyy'}}</ion-card-subtitle>
@@ -41,6 +39,9 @@
             </p>
             <ion-item lines="none" class="transparent card-buttons">
               <ion-buttons slot="end">
+                <ion-button size="small" color="success" (click)="previewRecipe(recipe.id)">
+                  <ion-icon icon="eye-outline"></ion-icon>
+                </ion-button>
                 <ion-button size="small" color="primary" (click)="editRecipe(recipe.id)">
                   <ion-icon icon="create-outline"></ion-icon>
                 </ion-button>

@@ -50,10 +50,6 @@ export class RecipesPage extends PageBase implements OnInit, AfterViewInit {
       .catch(err => this.showError(err));
   }
 
-  preview() {
-
-  }
-
   async editRecipe(id: string) {
     await this.router.navigate(['/recipe/' + id]);
   }
@@ -85,5 +81,9 @@ export class RecipesPage extends PageBase implements OnInit, AfterViewInit {
     this.initialize();
     this.loadData();
     $event.target.complete();
+  }
+
+  async previewRecipe(id: string) {
+    await this.router.navigate(['/recipe-preview/' + id]);
   }
 }

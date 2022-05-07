@@ -22,6 +22,10 @@ const routes: Routes = [
   {
     path: 'recipe-ingredient',
     loadChildren: () => import('./pages/recipe-ingredient/recipe-ingredient.module').then( m => m.RecipeIngredientPageModule)
+  },
+  {
+    path: 'recipe-preview',
+    loadChildren: () => import('./pages/recipe-preview/recipe-preview.module').then( m => m.RecipePreviewPageModule)
   }
 ];
 

@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Recipe preview</ion-title>
+    <ion-badge color="warning" slot="end" *ngIf="getIdleTimeSum() > 0">
+      {{getIdleDisplayValue(getIdleTimeSum())}} idle in total ({{getIdleTimeSum()}} minutes)
+    </ion-badge>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+  <ion-slides [options]="slidesOptions" *ngIf="data.photos && data.photos.length > 0">
+    <ion-slide *ngFor="let image of data.photos;let i = index;">
+      <div class="box">
+        <ion-img [src]="image"></ion-img>
+      </div>
+    </ion-slide>
+  </ion-slides>
+  <div class="container">
+    <ion-item class="container-item">
+      <ion-label color="primary">Name:</ion-label>
+      <ion-input readonly="true">{{data.name}}</ion-input>
+    </ion-item>
+  </div>
+
+  <ion-item>
+    <ion-label color="primary">Description:</ion-label>
+    <ion-textarea readonly="true">{{data.description}}</ion-textarea>
+  </ion-item>
+
+  <ion-card *ngIf="data.ingredients && data.ingredients.length > 0">
+    <ion-card-header>
+      <ion-card-subtitle>Ingredients</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item *ngFor="let ingredient of data.ingredients;let i = index;" class="transparent" lines="none">
+        <ion-label>{{ingredient.name}}</ion-label>
+        <ion-note slot="end" color="primary">{{ingredient.amount}}{{ingredient.unit}}</ion-note>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-item>
+    <ion-text>Steps</ion-text>
+  </ion-item>
+  <ion-card *ngFor="let step of data.recipeSteps;let i = index;">
+    <ion-card-header>
+      <div class="container">
+        <ion-text class="container-item recipe-step-title">{{i + 1}}. {{step.name}}</ion-text>
+        <ion-badge color="warning" slot="end" *ngIf="step.idleTimeInMinutes > 0">
+          {{getIdleDisplayValue(step.idleTimeInMinutes)}} idle
+        </ion-badge>
+      </div>
+    </ion-card-header>
+    <ion-card-content class="recipe-step-content">
+      {{step.content}}
+    </ion-card-content>
+  </ion-card>
+</ion-content>
