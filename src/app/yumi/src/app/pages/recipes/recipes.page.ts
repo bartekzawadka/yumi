@@ -16,7 +16,7 @@ export class RecipesPage extends PageBase implements OnInit, AfterViewInit {
 
   constructor(
     private router: Router,
-    private filterService: FilterService,
+    public filterService: FilterService,
     private recipeService: RecipeService,
     protected loadingController: LoadingController,
     protected alertController: AlertController,) {
@@ -74,5 +74,16 @@ export class RecipesPage extends PageBase implements OnInit, AfterViewInit {
         this.loadData();
       })
       .catch(err => this.showError(err));
+  }
+
+  onSearchPhraseChange() {
+    this.initialize();
+    this.loadData();
+  }
+
+  refresh($event: any) {
+    this.initialize();
+    this.loadData();
+    $event.target.complete();
   }
 }

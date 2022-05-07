@@ -64,7 +64,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : DbDocument
         {
             ravenQueryable = searchFields.Aggregate(
                 ravenQueryable,
-                (current, searchField) => current.Search(searchField, query.SearchPhrase));
+                (current, searchField) => current.Search(searchField, $"*{query.SearchPhrase}*"));
         }
 
         if (orderBy != null)
