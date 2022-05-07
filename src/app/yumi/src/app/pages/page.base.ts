@@ -35,6 +35,29 @@ export abstract class PageBase {
     await alert.present();
   }
 
+  async showConfirmation(title: string, message: string, onConfirmed?: () => void) {
+    const alert = await this.alertController.create({
+      header: title,
+      message,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'OK',
+          handler: () => {
+            if(onConfirmed){
+              onConfirmed();
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
   protected parseError(err: any): string {
     if (err && err.error && err.error.errors && Array.isArray(err.error.errors)) {
       if (err.error.errors.length === 1) {
@@ -57,6 +80,6 @@ export abstract class PageBase {
       return err?.toString();
     }
 
-    return "Unexpected error occurred";
+    return 'Unexpected error occurred';
   }
 }

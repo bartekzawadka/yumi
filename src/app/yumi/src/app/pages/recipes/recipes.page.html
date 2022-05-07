@@ -14,5 +14,34 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
+  <ion-grid *ngIf="data && data.length > 0">
+    <ion-row>
+      <ion-col size-xs="12" size-sm="12" size-md="6" size-lg="4" size-xl="3" *ngFor="let recipe of data">
+        <ion-card>
+          <div>
+            <img [src]="recipe.photo" *ngIf="recipe.photo" class="card-image">
+          </div>
+          <ion-card-header>
+            <ion-text class="recipe-title">{{recipe.name}}</ion-text>
+            <ion-card-subtitle>{{recipe.timeStamp | date:'dd-MM-yyyy'}}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <p class="recipe-description">
+              {{recipe.description}}
+            </p>
+            <ion-item lines="none" class="transparent card-buttons">
+              <ion-buttons slot="end">
+                <ion-button size="small" color="primary" (click)="editRecipe(recipe.id)">
+                  <ion-icon icon="create-outline"></ion-icon>
+                </ion-button>
+                <ion-button size="small" color="danger" (click)="deleteRecipe(recipe.id)">
+                  <ion-icon icon="trash-outline"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

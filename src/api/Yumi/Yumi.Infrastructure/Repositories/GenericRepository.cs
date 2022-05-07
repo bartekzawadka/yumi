@@ -42,6 +42,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : DbDocument
         TQuery query,
         Expression<Func<T, TOut>> selectExpression,
         CancellationToken cancellationToken,
+        Func<IRavenQueryable<T>, IRavenQueryable<T>>? orderBy = null,
         params Expression<Func<T, object>>[] searchFields) where TQuery : GetListQuery
     {
         var from = query.From?.ToUniversalTime();
@@ -64,6 +65,11 @@ public class GenericRepository<T> : IGenericRepository<T> where T : DbDocument
             ravenQueryable = searchFields.Aggregate(
                 ravenQueryable,
                 (current, searchField) => current.Search(searchField, query.SearchPhrase));
+        }
+
+        if (orderBy != null)
+        {
+            ravenQueryable = orderBy(ravenQueryable);
         }
 
         return ravenQueryable.Select(selectExpression).ToPagedListAsync(query.PageIndex, query.PageSize, cancellationToken);

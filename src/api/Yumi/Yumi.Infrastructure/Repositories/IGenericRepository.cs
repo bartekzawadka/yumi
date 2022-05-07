@@ -23,6 +23,7 @@ public interface IGenericRepository<T> where T : DbDocument
         TQuery query,
         Expression<Func<T, TOut>> selectExpression,
         CancellationToken cancellationToken,
+        Func<IRavenQueryable<T>, IRavenQueryable<T>>? orderBy = null,
         params Expression<Func<T, object>>[] searchFields) where TQuery : GetListQuery;
 
     Task<List<T>> GetListAsync(

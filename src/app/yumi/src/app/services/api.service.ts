@@ -33,7 +33,7 @@ export abstract class ApiService{
     });
   }
 
-  protected delete(id: number): Observable<any> {
+  protected delete(id: string): Observable<any> {
     return this.http.delete(this.getEndpointUrl('/') + id);
   }
 

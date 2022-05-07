@@ -1,4 +1,5 @@
 ﻿using Baz.Service.Action.Core;
+using Raven.Client.Documents.Linq;
 using Yumi.Application.Dto.Commands;
 using Yumi.Application.Dto.Requests;
 using Yumi.Application.Dto.Responses;
@@ -32,6 +33,7 @@ public class RecipeService : IRecipeService
                 TotalIdleTime = recipe.RecipeSteps.Sum(step => step.IdleTimeInMinutes)
             },
             cancellationToken,
+            recipes => recipes.OrderByDescending(recipe => recipe.TimeStamp),
             recipe => recipe.Name, recipe => recipe.Description);
 
     public async Task<IServiceActionResult<Recipe>> GetByIdAsync(string id, CancellationToken cancellationToken)

@@ -8,7 +8,7 @@ import {Recipe} from 'src/app/models/recipe';
 import * as moment from 'moment';
 import {RecipeService} from '../../services/recipe.service';
 import {PageBase} from '../page.base';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-recipe',
@@ -17,12 +17,14 @@ import {Router} from '@angular/router';
 })
 export class RecipePage extends PageBase implements OnInit {
   model = new Recipe();
+  id = '';
   slidesOptions = {
     autoHeight: true,
     centerSlides: true,
   };
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     protected loadingController: LoadingController,
     protected alertController: AlertController,
@@ -32,6 +34,25 @@ export class RecipePage extends PageBase implements OnInit {
   }
 
   ngOnInit() {
+    this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    if (this.id) {
+      this.loadData();
+    }
+  }
+
+  loadData() {
+    this.callWithLoader(() => this.recipeService.getById(this.id))
+      .then(value => {
+        const model = new Recipe();
+        model.recipeSteps = value.recipeSteps;
+        model.photos = value.photos;
+        model.ingredients = value.ingredients;
+        model.id = value.id;
+        model.name = value.name;
+        model.description = value.description;
+        return this.model = model;
+      })
+      .catch(err => this.showError(err));
   }
 
   async addRecipeIngredient() {
@@ -80,7 +101,11 @@ export class RecipePage extends PageBase implements OnInit {
   }
 
   saveRecipe() {
-    this.callWithLoader(() => this.recipeService.createRecipe(this.model))
+    const promise = this.id
+      ? () => this.recipeService.editRecipe(this.model)
+      : () => this.recipeService.createRecipe(this.model);
+
+    this.callWithLoader(promise)
       .then(() => {
         this.router.navigate(['/']);
       })
