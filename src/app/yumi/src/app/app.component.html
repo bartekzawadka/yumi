@@ -3,7 +3,9 @@
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>Yumi</ion-list-header>
+          <ion-list-header>
+            <ion-avatar><img src="../assets/icon/logo.png"></ion-avatar>
+            <ion-label class="title-label">Yumi</ion-label></ion-list-header>
           <ion-note>hi@ionicframework.com</ion-note>
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">

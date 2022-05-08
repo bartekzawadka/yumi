@@ -6,7 +6,12 @@ import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
 
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+
+import {SocialLoginModule, SocialAuthServiceConfig} from '@abacritt/angularx-social-login';
+import {GoogleLoginProvider} from '@abacritt/angularx-social-login';
+import {AuthGuard} from './auth/auth-guard';
+import {AuthInterceptor} from './auth/auth-interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,8 +22,30 @@ import {HttpClientModule} from '@angular/common/http';
       mode: 'ios'
     }),
     HttpClientModule,
+    SocialLoginModule,
     AppRoutingModule],
-  providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}],
+  providers: [
+    {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider('##{GOOGLE_CLIENT_ID}##')
+          }
+        ],
+        onError: error => console.log(error),
+      } as SocialAuthServiceConfig,
+    },
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {

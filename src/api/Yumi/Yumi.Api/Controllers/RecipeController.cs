@@ -1,4 +1,5 @@
 ﻿using Baz.Service.Action.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Yumi.Application.Dto.Commands;
 using Yumi.Application.Dto.Requests;
@@ -10,6 +11,7 @@ using Yumi.Infrastructure.Sys;
 namespace Yumi.Api.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("[controller]")]
 public class RecipeController : ControllerBase
 {

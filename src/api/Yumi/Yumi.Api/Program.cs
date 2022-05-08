@@ -46,6 +46,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IGenericRepository<Recipe>, GenericRepository<Recipe>>();
 builder.Services.AddScoped<IRecipeService, RecipeService>();
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 var yumiConfigSection = builder.Configuration.GetSection(nameof(YumiConfiguration));
 builder.Services.AddOptions<YumiConfiguration>()
@@ -127,11 +128,14 @@ builder
         };
     });
 
+builder.Services.AddHttpClient();
+
 var app = builder.Build();
 var hosts = yumiConfig.AllowedHost.Split(";");
 
 app.UseCors(options =>
-    options.WithOrigins(hosts)
+    options.WithOrigins("*")
+        .SetIsOriginAllowedToAllowWildcardSubdomains()
         .AllowAnyMethod()
         .AllowAnyHeader());
 

@@ -10,6 +10,8 @@
         <PackageReference Include="Baz.Service.Action.AspNetCore" Version="2.0.1" />
         <PackageReference Include="Baz.Service.Action.Core" Version="2.0.1" />
         <PackageReference Include="FluentValidation" Version="11.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.17.0" />
     </ItemGroup>
     
     <ItemGroup>
