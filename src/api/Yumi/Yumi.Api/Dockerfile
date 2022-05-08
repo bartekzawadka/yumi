@@ -1,20 +1,5 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+﻿FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
-
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /src
-COPY ["Yumi.Api/Yumi.Api.csproj", "Yumi.Api/"]
-RUN dotnet restore "Yumi.Api/Yumi.Api.csproj"
 COPY . .
-WORKDIR "/src/Yumi.Api"
-RUN dotnet build "Yumi.Api.csproj" -c Release -o /app/build
-
-FROM build AS publish
-RUN dotnet publish "Yumi.Api.csproj" -c Release -o /app/publish
-
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Yumi.Api.dll"]
+EXPOSE 9000
+ENTRYPOINT ["dotnet", "Yumi.Api.dll", "--urls=http://0.0.0.0:9000/"]

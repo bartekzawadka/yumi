@@ -1,0 +1,123 @@
+name: $(date:yyyyMMdd)$(rev:.r)_$(SourceBranchName)
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - "*"
+
+pool:
+  vmImage: 'ubuntu-20.04'
+
+stages:
+  - stage: Build
+    displayName: Build and test
+    jobs:
+      - job: Build
+        displayName: Build and test application
+        variables:
+          - name: BuildConfiguration
+            value: 'Release'
+          - name: TestsFilter
+            value: 'TestCategory'
+          - name: SolutionPath
+            value: '**/*.csproj'
+          - name: AppWorkingDir
+            value: 'src/app/yumi'
+          - name: IsMain
+            value: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+          - name: AppVersion
+            value: '1.0.0'
+        steps:
+          - script: |
+              PACKAGE_PATH="$(Build.SourcesDirectory)/src/app/yumi/package.json"
+              PACKAGE_VERSION=$(grep version $PACKAGE_PATH | sed 's/.*"version": "\(.*\)".*/\1/')
+              echo "Setting app version: $PACKAGE_VERSION"
+              echo "##vso[task.setvariable variable=AppVersion]$PACKAGE_VERSION"
+          - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+            displayName: 'Replace tokens in files'
+            inputs:
+                rootDirectory: src
+                targetFiles: |
+                  **/environment.prod.ts
+                  **/app.module.ts
+                writeBOM: false
+                tokenPrefix: '##{'
+                tokenSuffix: '}##'              
+          - task: UseDotNet@2
+            displayName: 'Use .NET'
+            inputs:
+              version: 6.x       
+          - task: DotNetCoreCLI@2
+            displayName: '[.Net] Restore'
+            inputs:
+              command: restore
+              projects: $(SolutionPath)
+              feedsToUse: 'config'
+              nugetConfigPath: 'nuget.config'
+          - task: DotNetCoreCLI@2
+            displayName: '[.Net] Build'
+            inputs:
+              command: build
+              projects: $(SolutionPath)
+              arguments: '--configuration $(BuildConfiguration) --no-restore'
+          - task: DotNetCoreCLI@2
+            displayName: '[.Net] Test'
+            inputs:
+              command: test
+              projects: $(SolutionPath)
+              arguments: '--configuration $(BuildConfiguration)'
+          - task: Npm@1
+            displayName: '[NPM] Install app packages'
+            inputs:
+              command: 'custom'
+              customCommand: 'install'
+              workingDir: $(AppWorkingDir)          
+          - task: Npm@1
+            displayName: '[NPM] Build app'
+            inputs:
+              command: 'custom'
+              ustomCommand: 'run ng run app:build:production'
+              workingDir: $(AppWorkingDir)            
+          - task: Docker@2
+            displayName: Build API image
+            inputs:
+              repository: $(ApiImageName)
+              command: build
+              buildContext: $(Build.SourcesDirectory)/src/api/Yumi/Yumi.Api/bin/$(BuildConfiguration)/net6.0
+              Dockerfile: $(Build.SourcesDirectory)/src/api/Yumi/Yumi.Api/Dockerfile
+              tags: |
+                $(AppVersion)
+                latest
+            condition: and(succeeded(), eq(variables.IsMain, true))
+          - task: Docker@2
+            displayName: Build APP image
+            inputs:
+              repository: $(AppImageName)
+              command: build
+              buildContext: $(Build.SourcesDirectory)/src/app/yumi
+              Dockerfile: $(Build.SourcesDirectory)/src/app/yumi/Dockerfile
+              tags: |
+                $(AppVersion)
+                latest
+            condition: and(succeeded(), eq(variables.IsMain, true))         
+          - task: Docker@2
+            displayName: Publish API image
+            inputs:
+              containerRegistry: 'dockerhub'
+              repository: $(ApiImageName)
+              command: push
+              tags: |
+                $(AppVersion)
+                latest
+            condition: and(succeeded(), eq(variables.IsMain, true))  
+          - task: Docker@2
+            displayName: Publish APP image
+            inputs:
+              containerRegistry: 'dockerhub'
+              repository: $(AppImageName)
+              command: push
+              tags: |
+                $(AppVersion)
+                latest
+            condition: and(succeeded(), eq(variables.IsMain, true))
