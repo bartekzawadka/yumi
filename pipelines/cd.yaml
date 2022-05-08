@@ -1,0 +1,65 @@
+name: $(date:yyyyMMdd)$(rev:.r)_$(SourceBranchName)
+trigger: none
+
+# resources:
+#   pipelines:
+#   - pipeline: build
+#     source: Build
+#     project: Plumber
+#     trigger:
+#       branches:
+#         include:
+#           - refs/heads/main
+
+jobs:
+    - job: Release
+      displayName: 'Kubernetes sync'
+      workspace: 
+        clean: all
+      pool:
+        name: Azure Pipelines
+        vmImage: ubuntu-20.04
+      steps:
+      - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+        displayName: 'Prepare secrets'
+        inputs:
+            targetFiles: '**/secret.yaml'
+            writeBOM: false
+            tokenPrefix: '##{'
+            tokenSuffix: '}##'
+
+      - task: Kubernetes@1
+        displayName: 'Kubernetes apply secret'
+        inputs:
+          kubernetesServiceEndpoint: 'bz-kubernetes-cluster'
+          command: apply
+          arguments: '-f $(Build.SourcesDirectory)/pipelines/k8s/secret.yaml'
+
+      - task: Kubernetes@1
+        displayName: 'Kubernetes apply API deployment'
+        inputs:
+          kubernetesServiceEndpoint: 'bz-kubernetes-cluster'
+          command: apply
+          arguments: '-f $(Build.SourcesDirectory)/pipelines/k8s/api-deployment.yaml'
+
+      # - task: Kubernetes@1
+      #   displayName: 'Kubernetes apply APP deployment'
+      #   inputs:
+      #     kubernetesServiceEndpoint: 'bz-kubernetes-cluster'
+      #     command: apply
+      #     arguments: '-f $(Build.SourcesDirectory)/pipelines/k8s/app-deployment.yaml'     
+
+      - task: Kubernetes@1
+        displayName: 'Kubernetes apply API service'
+        inputs:
+          kubernetesServiceEndpoint: 'bz-kubernetes-cluster'
+          command: apply
+          arguments: '-f $(Build.SourcesDirectory)/pipelines/k8s/api-service.yaml'
+
+      # - task: Kubernetes@1
+      #   displayName: 'Kubernetes apply APP service'
+      #   inputs:
+      #     kubernetesServiceEndpoint: 'bz-kubernetes-cluster'
+      #     command: apply
+      #     arguments: '-f $(Build.SourcesDirectory)/pipelines/k8s/app-service.yaml'
+      

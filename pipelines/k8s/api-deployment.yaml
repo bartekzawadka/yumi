@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yumi-api-deployment
+  labels:
+    app: yumi-api
+  
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: yumi-api
+  template:
+    metadata:
+      labels:
+        app: yumi-api
+    spec:
+      containers:
+        - name: yumi-api
+          image: bartee/yumi-api:1.0.0
+          ports:
+            - containerPort: 9000
+              name: http
+          env:
+            - name: RAVENDB_CONNECTION_STRING
+              valueFrom:
+                secretKeyRef:
+                  name: yumi-api-secret
+                  key: ravenDbConnectionString
+            - name: RAVENDB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: yumi-api-secret
+                  key: ravenDbName
+            - name: RAVENDB_CERTIFICATE
+              valueFrom:
+                secretKeyRef:
+                  name: yumi-api-secret
+                  key: ravenDbCertificate   
+            - name: RAVENDB_CERTIFICATE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: yumi-api-secret
+                  key: ravenDbCertificatePassword                                                  
+            - name: TOKEN_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: yumi-api-secret
+                  key: tokenSecret
+            - name: APP_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: yumi-api-secret
+                  key: appHost
+            - name: RESPECTED_USER_ACCOUNTS
+              valueFrom:
+                secretKeyRef:
+                  name: yumi-api-secret
+                  key: respectedUserAccounts

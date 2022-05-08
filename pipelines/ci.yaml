@@ -77,7 +77,7 @@ stages:
             displayName: '[NPM] Build app'
             inputs:
               command: 'custom'
-              ustomCommand: 'run ng run app:build:production'
+              customCommand: 'run ng run app:build:production'
               workingDir: $(AppWorkingDir)            
           - task: Docker@2
             displayName: Build API image
