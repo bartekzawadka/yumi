@@ -42,12 +42,12 @@ jobs:
           command: apply
           arguments: '-f $(Build.SourcesDirectory)/pipelines/k8s/api-deployment.yaml'
 
-      # - task: Kubernetes@1
-      #   displayName: 'Kubernetes apply APP deployment'
-      #   inputs:
-      #     kubernetesServiceEndpoint: 'bz-kubernetes-cluster'
-      #     command: apply
-      #     arguments: '-f $(Build.SourcesDirectory)/pipelines/k8s/app-deployment.yaml'     
+      - task: Kubernetes@1
+        displayName: 'Kubernetes apply APP deployment'
+        inputs:
+          kubernetesServiceEndpoint: 'bz-kubernetes-cluster'
+          command: apply
+          arguments: '-f $(Build.SourcesDirectory)/pipelines/k8s/app-deployment.yaml'
 
       - task: Kubernetes@1
         displayName: 'Kubernetes apply API service'
@@ -56,10 +56,10 @@ jobs:
           command: apply
           arguments: '-f $(Build.SourcesDirectory)/pipelines/k8s/api-service.yaml'
 
-      # - task: Kubernetes@1
-      #   displayName: 'Kubernetes apply APP service'
-      #   inputs:
-      #     kubernetesServiceEndpoint: 'bz-kubernetes-cluster'
-      #     command: apply
-      #     arguments: '-f $(Build.SourcesDirectory)/pipelines/k8s/app-service.yaml'
+      - task: Kubernetes@1
+        displayName: 'Kubernetes apply APP service'
+        inputs:
+          kubernetesServiceEndpoint: 'bz-kubernetes-cluster'
+          command: apply
+          arguments: '-f $(Build.SourcesDirectory)/pipelines/k8s/app-service.yaml'
       
