@@ -134,7 +134,7 @@ var app = builder.Build();
 var hosts = yumiConfig.AllowedHost.Split(";");
 
 app.UseCors(options =>
-    options.WithOrigins("*")
+    options.WithOrigins(hosts)
         .SetIsOriginAllowedToAllowWildcardSubdomains()
         .AllowAnyMethod()
         .AllowAnyHeader());

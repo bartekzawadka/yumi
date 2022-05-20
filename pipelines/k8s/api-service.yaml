@@ -2,15 +2,12 @@ apiVersion: v1
 kind: Service
 metadata:
   name: yumi-api
-  annotations:
-    service.beta.kubernetes.io/azure-dns-label-name: "yumi-api"
   
 spec:
   ports:
     - port: 9000
       protocol: TCP
       targetPort: 9000
-      appProtocol: HTTPS
   selector:
     app: yumi-api
-  type: LoadBalancer
+  type: NodePort
