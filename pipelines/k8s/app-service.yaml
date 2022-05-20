@@ -5,9 +5,9 @@ metadata:
   
 spec:
   ports:
-    - port: 9990
+    - port: 9999
       protocol: TCP
-      targetPort: 9990
+      targetPort: 9999
   selector:
     app: yumi-app
   type: NodePort
