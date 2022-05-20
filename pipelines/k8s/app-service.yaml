@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: yumi-app
+  
+spec:
+  ports:
+    - port: 9990
+      protocol: TCP
+      targetPort: 9990
+  selector:
+    app: yumi-app
+  type: NodePort
