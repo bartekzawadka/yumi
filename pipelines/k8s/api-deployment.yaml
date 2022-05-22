@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: yumi-api
-          image: bartee/yumi-api:1.7.2
+          image: bartee/yumi-api:1.7.3
           ports:
             - containerPort: 9000
               name: http
