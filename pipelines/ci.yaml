@@ -77,7 +77,7 @@ stages:
             displayName: '[NPM] Build app'
             inputs:
               command: 'custom'
-              customCommand: 'run ng run app:build:production -- --base-href=/yumi'
+              customCommand: 'run ng run app:build:production -- --base-href=/yumi --deploy-url=/yumi'
               workingDir: $(AppWorkingDir)            
           - task: Docker@2
             displayName: Build API image
