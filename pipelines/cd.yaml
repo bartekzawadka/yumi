@@ -14,7 +14,7 @@ trigger: none
 jobs:
     - job: Release
       displayName: 'Kubernetes sync'
-      workspace: 
+      workspace:
         clean: all
       pool:
         name: Azure Pipelines
@@ -62,4 +62,3 @@ jobs:
           kubernetesServiceEndpoint: 'bz-kubernetes-cluster'
           command: apply
           arguments: '-f $(Build.SourcesDirectory)/pipelines/k8s/app-service.yaml'
-      
